@@ -53,7 +53,7 @@ extension StatusViewController: UITableViewDelegate, UITableViewDataSource {
     case 0:
       cell.configureCell(withData: self.charts["termometer"] ?? [], andName: "Термометр")
     case 1:
-      cell.configureCell(withData: self.charts["heart"] ?? [], andName: "ЭКГ")
+      cell.configureCell(withData: self.charts["heart"] ?? [], andName: "Пульс")
     case 2:
       cell.configureCell(withData: self.charts["blood"] ?? [], andName: "Сахар")
     case 3:

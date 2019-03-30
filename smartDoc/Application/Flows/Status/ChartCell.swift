@@ -72,17 +72,17 @@ class ChartCell: UITableViewCell {
     limitLine1.lineWidth = 1
     limitLine1.lineDashLengths = [5, 5]
     limitLine1.labelPosition = .rightTop
-    limitLine1.valueFont = .systemFont(ofSize: 10)
+    limitLine1.lineColor = NSUIColor.blue
     
     let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
     limitLine2.lineWidth = 1
     limitLine2.lineDashLengths = [5,5]
     limitLine2.labelPosition = .rightBottom
-    limitLine2.valueFont = .systemFont(ofSize: 10)
+    limitLine2.lineColor = NSUIColor.blue
     
     // Set line appearence
     let line = LineChartDataSet(values: lineChartData, label: nil)
-    line.lineWidth = 2
+    line.lineWidth = 1
     line.circleRadius = 0.0
     line.colors = [NSUIColor.red]
     

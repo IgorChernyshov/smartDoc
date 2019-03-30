@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JaZ-xv-kNo">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Состояние-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="StatusViewController" customModule="smartDoc" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="215" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t0Z-ye-lbl">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chartCell" rowHeight="215" id="rqj-Bv-6Iq" customClass="ChartCell" customModule="smartDoc" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="215"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rqj-Bv-6Iq" id="9XB-tM-dbS">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="214.66666666666666"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Название графика" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaC-aP-Xgh">
+                                                    <rect key="frame" x="20" y="10.999999999999998" width="148.66666666666666" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a1j-lD-LSE" userLabel="Chart" customClass="LineChartView" customModule="Charts">
+                                                    <rect key="frame" x="20" y="31.333333333333329" width="374" height="172.66666666666669"/>
+                                                    <color key="backgroundColor" red="0.35236515410000002" green="0.75506737550000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="a1j-lD-LSE" firstAttribute="top" secondItem="zaC-aP-Xgh" secondAttribute="bottom" id="GG9-fs-WIm"/>
+                                                <constraint firstItem="zaC-aP-Xgh" firstAttribute="top" secondItem="9XB-tM-dbS" secondAttribute="topMargin" id="Lvu-bp-ycc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="a1j-lD-LSE" secondAttribute="bottom" id="f8w-Eo-OB9"/>
+                                                <constraint firstItem="a1j-lD-LSE" firstAttribute="leading" secondItem="9XB-tM-dbS" secondAttribute="leadingMargin" id="mFT-yG-ZcJ"/>
+                                                <constraint firstItem="zaC-aP-Xgh" firstAttribute="leading" secondItem="9XB-tM-dbS" secondAttribute="leadingMargin" id="nSN-Nk-fC6"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="zaC-aP-Xgh" secondAttribute="trailing" id="pxh-TN-IVp"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="a1j-lD-LSE" secondAttribute="trailing" id="zNP-E0-enG"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="chartNameLabel" destination="zaC-aP-Xgh" id="xtC-Sp-y6b"/>
+                                            <outlet property="chartView" destination="a1j-lD-LSE" id="K4U-RD-jqN"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="t0Z-ye-lbl" secondAttribute="trailing" id="13J-TZ-EnB"/>
+                            <constraint firstItem="t0Z-ye-lbl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="15h-yb-eWL"/>
+                            <constraint firstItem="t0Z-ye-lbl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1oJ-NL-JUc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t0Z-ye-lbl" secondAttribute="bottom" id="EYh-1M-a7d"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Состояние" id="kr4-fe-zCV"/>
+                    <connections>
+                        <outlet property="tableView" destination="t0Z-ye-lbl" id="CwF-Qc-P5u"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044.9275362318842" y="136.95652173913044"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="41p-A4-AbM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JaZ-xv-kNo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YM2-If-nA1">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="teb-Vi-0PX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hkp-Lp-TiU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="136.95652173913044"/>
+        </scene>
+    </scenes>
+</document>

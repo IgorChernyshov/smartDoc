@@ -17,6 +17,7 @@
 		9C053BAA224F7C71006F1912 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BA9224F7C71006F1912 /* ChartData.swift */; };
 		9C053BAE224FA1B3006F1912 /* ChartsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BAD224FA1B3006F1912 /* ChartsMock.swift */; };
 		9C053BB5224FBE40006F1912 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C053BB4224FBE40006F1912 /* GoogleService-Info.plist */; };
+		9C053BB7224FE562006F1912 /* NormalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BB6224FE562006F1912 /* NormalValues.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		9C053BA9224F7C71006F1912 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		9C053BAD224FA1B3006F1912 /* ChartsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsMock.swift; sourceTree = "<group>"; };
 		9C053BB4224FBE40006F1912 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9C053BB6224FE562006F1912 /* NormalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalValues.swift; sourceTree = "<group>"; };
 		AC14E9C890361B23D3769349 /* Pods-smartDoc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-smartDoc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-smartDoc/Pods-smartDoc.debug.xcconfig"; sourceTree = "<group>"; };
 		FABA6916F569D516A007BA5B /* Pods-smartDoc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-smartDoc.release.xcconfig"; path = "Pods/Target Support Files/Pods-smartDoc/Pods-smartDoc.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				9C053BA9224F7C71006F1912 /* ChartData.swift */,
+				9C053BB6224FE562006F1912 /* NormalValues.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			files = (
 				9C053B8D224F6D76006F1912 /* StatusViewController.swift in Sources */,
 				9C053B8B224F6D76006F1912 /* AppDelegate.swift in Sources */,
+				9C053BB7224FE562006F1912 /* NormalValues.swift in Sources */,
 				9C053BAA224F7C71006F1912 /* ChartData.swift in Sources */,
 				9C053BAE224FA1B3006F1912 /* ChartsMock.swift in Sources */,
 				9C053BA3224F72BF006F1912 /* ChartCell.swift in Sources */,

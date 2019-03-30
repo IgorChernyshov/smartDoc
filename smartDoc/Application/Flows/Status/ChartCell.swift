@@ -18,6 +18,7 @@ class ChartCell: UITableViewCell {
   
   // MARK: - Variables
   
+  private var name = ""
   private var values: [Double] = [0.0]
   private var lineChartData: [ChartDataEntry] = []
   
@@ -25,6 +26,7 @@ class ChartCell: UITableViewCell {
   
   func configureCell(withData data: [Double], andName name: String) {
     self.values = data
+    self.name = name
     self.chartView.isHidden = true
     self.chartNameLabel.text = name
     configureChart()
@@ -42,8 +44,45 @@ class ChartCell: UITableViewCell {
     
     // Configure chart
     
+    // Set limit lines
+    var upperLimit = 0.0
+    var lowerLimit = 0.0
+    
+    switch self.name {
+    case "Термометр":
+      upperLimit = NormalValues.temperatureMax.rawValue
+      lowerLimit = NormalValues.temperatureMin.rawValue
+    case "Пульс":
+      upperLimit = NormalValues.pulseMax.rawValue
+      lowerLimit = NormalValues.pulseMin.rawValue
+    case "Сахар":
+      upperLimit = NormalValues.bloodSugarMax.rawValue
+      lowerLimit = NormalValues.bloodSugarMin.rawValue
+    case "Давление":
+      upperLimit = NormalValues.pressureMax.rawValue
+      lowerLimit = NormalValues.pressureMin.rawValue
+    case "Вес":
+      upperLimit = NormalValues.weightMax.rawValue
+      lowerLimit = NormalValues.weightMin.rawValue
+    default:
+      break
+    }
+    
+    let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
+    limitLine1.lineWidth = 1
+    limitLine1.lineDashLengths = [5, 5]
+    limitLine1.labelPosition = .rightTop
+    limitLine1.valueFont = .systemFont(ofSize: 10)
+    
+    let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
+    limitLine2.lineWidth = 1
+    limitLine2.lineDashLengths = [5,5]
+    limitLine2.labelPosition = .rightBottom
+    limitLine2.valueFont = .systemFont(ofSize: 10)
+    
     // Set line appearence
     let line = LineChartDataSet(values: lineChartData, label: nil)
+    line.lineWidth = 2
     line.circleRadius = 0.0
     line.colors = [NSUIColor.red]
     
@@ -53,6 +92,9 @@ class ChartCell: UITableViewCell {
     
     // Set left Y axis appearence
     let yAxisLeft = chartView.leftAxis
+    yAxisLeft.addLimitLine(limitLine1)
+    yAxisLeft.addLimitLine(limitLine2)
+    yAxisLeft.drawLimitLinesBehindDataEnabled = true
     yAxisLeft.axisMinimum = minimumValue - minimumValue * 0.3
     yAxisLeft.axisMaximum = maximumValue + maximumValue * 0.3
     
@@ -73,6 +115,9 @@ class ChartCell: UITableViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
+    self.values = [0.0]
+    self.lineChartData = []
+    chartView.data = LineChartData()
     chartView.clear()
   }
   

@@ -18,14 +18,12 @@ class ChartCell: UITableViewCell {
   
   // MARK: - Variables
   
-  private var name = ""
   private var values: [Double] = [0.0]
   private var lineChartData: [ChartDataEntry] = []
   
   // MARK: - Methods
   
-  func configureCell(with data: [Double]) {
-    self.name = "ЭКГ"
+  func configureCell(withData data: [Double], andName name: String) {
     self.values = data
     
     self.chartNameLabel.text = name

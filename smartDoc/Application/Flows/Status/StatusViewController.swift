@@ -17,7 +17,7 @@ class StatusViewController: UIViewController {
   
   // MARK: - Variables
   var dbReference: DatabaseReference!
-  var data: [Double] = []
+  var charts = [String:[Double]]()
   
   // MARK: - ViewController's lifecycle
   
@@ -27,9 +27,12 @@ class StatusViewController: UIViewController {
     tableView.delegate = self
     dbReference = Database.database().reference()
     
-    dbReference.child("user").child("1553959702").child("heart").observeSingleEvent(of: .value) { [weak self] (snapshot) in
-      guard let value = snapshot.value as? [Double] else { return }
-      self?.data = value
+    dbReference.child("user").observeSingleEvent(of: .value) { [weak self] (snapshot) in
+      guard let charts = snapshot.value as? NSDictionary else { return }
+  
+      for chart in charts {
+        self?.charts[chart.key as! String] = chart.value as? [Double]
+      }
       self?.tableView.reloadData()
     }
   }
@@ -41,13 +44,25 @@ class StatusViewController: UIViewController {
 extension StatusViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return 5
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "chartCell") as? ChartCell else { return ChartCell() }
-    let chartData = self.data
-    cell.configureCell(with: chartData)
+    switch indexPath.row {
+    case 0:
+      cell.configureCell(withData: self.charts["termometer"] ?? [], andName: "Термометр")
+    case 1:
+      cell.configureCell(withData: self.charts["heart"] ?? [], andName: "ЭКГ")
+    case 2:
+      cell.configureCell(withData: self.charts["blood"] ?? [], andName: "Сахар")
+    case 3:
+      cell.configureCell(withData: self.charts["pressure"] ?? [], andName: "Давление")
+    case 4:
+      cell.configureCell(withData: self.charts["weight"] ?? [], andName: "Вес")
+    default:
+      break
+    }
     return cell
   }
 

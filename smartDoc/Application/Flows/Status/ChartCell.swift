@@ -24,25 +24,65 @@ class ChartCell: UITableViewCell {
   
   // MARK: - Methods
   
-  func configureCell(with data: [Double]) {
-    self.name = "ЭКГ"
+  func configureCell(withData data: [Double], andName name: String) {
     self.values = data
-    
+    self.name = name
+    self.chartView.isHidden = true
     self.chartNameLabel.text = name
     configureChart()
   }
   
   func configureChart() {
+    guard var minimumValue = values.first, var maximumValue = values.first else { return }
     // Populate data source
     for index in 0..<values.count {
       let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
       lineChartData.append(chartPoint)
+      if values[index] < minimumValue { minimumValue = values[index] }
+      if values[index] > maximumValue { maximumValue = values[index] }
     }
     
     // Configure chart
     
+    // Set limit lines
+    var upperLimit = 0.0
+    var lowerLimit = 0.0
+    
+    switch self.name {
+    case "Термометр":
+      upperLimit = NormalValues.temperatureMax.rawValue
+      lowerLimit = NormalValues.temperatureMin.rawValue
+    case "Пульс":
+      upperLimit = NormalValues.pulseMax.rawValue
+      lowerLimit = NormalValues.pulseMin.rawValue
+    case "Сахар":
+      upperLimit = NormalValues.bloodSugarMax.rawValue
+      lowerLimit = NormalValues.bloodSugarMin.rawValue
+    case "Давление":
+      upperLimit = NormalValues.pressureMax.rawValue
+      lowerLimit = NormalValues.pressureMin.rawValue
+    case "Вес":
+      upperLimit = NormalValues.weightMax.rawValue
+      lowerLimit = NormalValues.weightMin.rawValue
+    default:
+      break
+    }
+    
+    let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
+    limitLine1.lineWidth = 1
+    limitLine1.lineDashLengths = [5, 5]
+    limitLine1.labelPosition = .rightTop
+    limitLine1.lineColor = NSUIColor.blue
+    
+    let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
+    limitLine2.lineWidth = 1
+    limitLine2.lineDashLengths = [5,5]
+    limitLine2.labelPosition = .rightBottom
+    limitLine2.lineColor = NSUIColor.blue
+    
     // Set line appearence
     let line = LineChartDataSet(values: lineChartData, label: nil)
+    line.lineWidth = 1
     line.circleRadius = 0.0
     line.colors = [NSUIColor.red]
     
@@ -52,11 +92,15 @@ class ChartCell: UITableViewCell {
     
     // Set left Y axis appearence
     let yAxisLeft = chartView.leftAxis
-    yAxisLeft.axisMinimum = 0
-    yAxisLeft.axisMaximum = 1.5
+    yAxisLeft.addLimitLine(limitLine1)
+    yAxisLeft.addLimitLine(limitLine2)
+    yAxisLeft.drawLimitLinesBehindDataEnabled = true
+    yAxisLeft.axisMinimum = minimumValue - minimumValue * 0.3
+    yAxisLeft.axisMaximum = maximumValue + maximumValue * 0.3
     
     // Disable unused elements
     yAxisLeft.gridLineWidth = 0.0
+    chartView.xAxis.drawLabelsEnabled = false
     chartView.rightAxis.enabled = false
     chartView.legend.enabled = false
     chartView.chartDescription?.enabled = false
@@ -65,7 +109,16 @@ class ChartCell: UITableViewCell {
     chartView.setScaleEnabled(false)
 
     // Display chart
+    self.chartView.isHidden = false
     chartView.data = data
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.values = [0.0]
+    self.lineChartData = []
+    chartView.data = LineChartData()
+    chartView.clear()
   }
   
 }

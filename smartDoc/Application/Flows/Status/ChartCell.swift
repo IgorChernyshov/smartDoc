@@ -25,16 +25,19 @@ class ChartCell: UITableViewCell {
   
   func configureCell(withData data: [Double], andName name: String) {
     self.values = data
-    
+    self.chartView.isHidden = true
     self.chartNameLabel.text = name
     configureChart()
   }
   
   func configureChart() {
+    guard var minimumValue = values.first, var maximumValue = values.first else { return }
     // Populate data source
     for index in 0..<values.count {
       let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
       lineChartData.append(chartPoint)
+      if values[index] < minimumValue { minimumValue = values[index] }
+      if values[index] > maximumValue { maximumValue = values[index] }
     }
     
     // Configure chart
@@ -50,11 +53,12 @@ class ChartCell: UITableViewCell {
     
     // Set left Y axis appearence
     let yAxisLeft = chartView.leftAxis
-    yAxisLeft.axisMinimum = 0
-    yAxisLeft.axisMaximum = 1.5
+    yAxisLeft.axisMinimum = minimumValue - minimumValue * 0.3
+    yAxisLeft.axisMaximum = maximumValue + maximumValue * 0.3
     
     // Disable unused elements
     yAxisLeft.gridLineWidth = 0.0
+    chartView.xAxis.drawLabelsEnabled = false
     chartView.rightAxis.enabled = false
     chartView.legend.enabled = false
     chartView.chartDescription?.enabled = false
@@ -63,7 +67,13 @@ class ChartCell: UITableViewCell {
     chartView.setScaleEnabled(false)
 
     // Display chart
+    self.chartView.isHidden = false
     chartView.data = data
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    chartView.clear()
   }
   
 }

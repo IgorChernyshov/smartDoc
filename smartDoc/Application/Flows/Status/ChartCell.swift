@@ -48,29 +48,8 @@ class ChartCell: UITableViewCell {
     var extremumsChartData: [ChartDataEntry] = []
     
     // Set limit lines
-    var upperLimit = 0.0
-    var lowerLimit = 0.0
-    
-    // Set limit lines depending on graph's chart
-    switch self.name {
-    case "Термометр":
-      upperLimit = NormalValues.temperatureMax.rawValue
-      lowerLimit = NormalValues.temperatureMin.rawValue
-    case "Пульс":
-      upperLimit = NormalValues.pulseMax.rawValue
-      lowerLimit = NormalValues.pulseMin.rawValue
-    case "Сахар":
-      upperLimit = NormalValues.bloodSugarMax.rawValue
-      lowerLimit = NormalValues.bloodSugarMin.rawValue
-    case "Давление":
-      upperLimit = NormalValues.pressureMax.rawValue
-      lowerLimit = NormalValues.pressureMin.rawValue
-    case "Вес":
-      upperLimit = NormalValues.weightMax.rawValue
-      lowerLimit = NormalValues.weightMin.rawValue
-    default:
-      break
-    }
+    let upperLimit = getChartsUpperLimit()
+    let lowerLimit = getChartsLowerLimit()
     
     let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
     limitLine1.lineWidth = 1
@@ -133,6 +112,46 @@ class ChartCell: UITableViewCell {
     // Display chart
     self.chartView.isHidden = false
     chartView.data = data
+  }
+  
+  /// Retrieves value's upper limit depending on graph's name
+  ///
+  /// - Returns: Upper limit that counts as "Normal"
+  func getChartsUpperLimit() -> Double {
+    switch self.name {
+    case "Термометр":
+      return NormalValues.temperatureMax.rawValue
+    case "Пульс":
+      return NormalValues.pulseMax.rawValue
+    case "Сахар":
+      return NormalValues.bloodSugarMax.rawValue
+    case "Давление":
+      return NormalValues.pressureMax.rawValue
+    case "Вес":
+      return NormalValues.weightMax.rawValue
+    default:
+      return 0.0
+    }
+  }
+  
+  /// Retrieves value's lower limit depending on graph's name
+  ///
+  /// - Returns: Lower limit that counts as "Normal"
+  func getChartsLowerLimit() -> Double {
+    switch self.name {
+    case "Термометр":
+      return NormalValues.temperatureMin.rawValue
+    case "Пульс":
+      return NormalValues.pulseMin.rawValue
+    case "Сахар":
+      return NormalValues.bloodSugarMin.rawValue
+    case "Давление":
+      return NormalValues.pressureMin.rawValue
+    case "Вес":
+      return NormalValues.weightMin.rawValue
+    default:
+      return 0.0
+    }
   }
   
   /// Nulifies values on charts to avoid line dublicates

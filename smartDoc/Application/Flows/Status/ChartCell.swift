@@ -40,9 +40,12 @@ class ChartCell: UITableViewCell {
   
   /// Configures chart
   func configureChart() {
+    // WORKAROUND: - Creates initial extremum point, because Charts didn't want to draw chart for one value
+    let initialExtremumValue = ChartDataEntry(x: 0, y: values.count > 0 ? values[0] : 0)
+    
     // Create data sets for charts
     var lineChartData: [ChartDataEntry] = []
-    var extremumsChartData: [ChartDataEntry] = []
+    var extremumsChartData: [ChartDataEntry] = [initialExtremumValue]
     
     // Set limit lines
     let upperLimit = getChartsUpperLimit()

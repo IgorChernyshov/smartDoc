@@ -15,7 +15,7 @@ enum NormalValues: Double {
   case weightMax = 75.0
   case pulseMin = 65.0
   case pulseMax = 80.0
-  case bloodSugarMin = 3.5
+  case bloodSugarMin = 3.4
   case bloodSugarMax = 5.5
   case pressureMin = 90
   case pressureMax = 140

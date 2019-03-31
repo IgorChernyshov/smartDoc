@@ -21,7 +21,6 @@ class ChartCell: UITableViewCell {
   
   private var name = ""
   private var values: [Double] = [0.0]
-  private var lineChartData: [ChartDataEntry] = []
   
   // MARK: - Methods
   
@@ -42,15 +41,11 @@ class ChartCell: UITableViewCell {
   func configureChart() {
     guard var minimumValue = values.first, var maximumValue = values.first else { return }
     
-    // Populate data source
-    for index in 0..<values.count {
-      let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
-      lineChartData.append(chartPoint)
-      if values[index] < minimumValue { minimumValue = values[index] }
-      if values[index] > maximumValue { maximumValue = values[index] }
-    }
-    
     // Configure chart
+    
+    // Create data sets for charts
+    var lineChartData: [ChartDataEntry] = []
+    var extremumsChartData: [ChartDataEntry] = []
     
     // Set limit lines
     var upperLimit = 0.0
@@ -80,25 +75,42 @@ class ChartCell: UITableViewCell {
     let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
     limitLine1.lineWidth = 1
     limitLine1.lineDashLengths = [5, 5]
-    limitLine1.labelPosition = .rightTop
     limitLine1.lineColor = NSUIColor.blue
     
     let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
     limitLine2.lineWidth = 1
     limitLine2.lineDashLengths = [5,5]
-    limitLine2.labelPosition = .rightBottom
     limitLine2.lineColor = NSUIColor.blue
     
-    // Set line appearence
-    let line = LineChartDataSet(values: lineChartData, label: nil)
-    line.lineWidth = 1
-    line.circleRadius = 0.0
-    line.colors = [NSUIColor.red]
-    line.drawValuesEnabled = false
+    // Populate data source
+    for index in 0..<values.count {
+      let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
+      lineChartData.append(chartPoint)
+      if values[index] < minimumValue { minimumValue = values[index] }
+      if values[index] > maximumValue { maximumValue = values[index] }
+      if (values[index] > upperLimit) || (values[index] < lowerLimit) {
+        extremumsChartData.append(chartPoint)
+      }
+    }
+    
+    // Set base line appearence
+    let baseLine = LineChartDataSet(values: lineChartData, label: nil)
+    baseLine.lineWidth = 1
+    baseLine.circleRadius = 0.0
+    baseLine.colors = [NSUIColor.red]
+    baseLine.drawValuesEnabled = false
+    
+    // Set extremum line appearence
+    let extremumLine = LineChartDataSet(values: extremumsChartData, label: nil)
+    extremumLine.lineWidth = 0
+    extremumLine.circleRadius = 1.0
+    extremumLine.circleColors = [NSUIColor.red]
+    extremumLine.circleHoleColor = NSUIColor.red
     
     // Set chart data source
     let data = LineChartData()
-    data.addDataSet(line)
+    data.addDataSet(baseLine)
+    data.addDataSet(extremumLine)
     
     // Set left Y axis appearence
     let yAxisLeft = chartView.leftAxis
@@ -127,7 +139,6 @@ class ChartCell: UITableViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     self.values = [0.0]
-    self.lineChartData = []
     chartView.data = LineChartData()
     chartView.clear()
   }

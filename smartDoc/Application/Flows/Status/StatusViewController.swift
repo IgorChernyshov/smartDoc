@@ -51,7 +51,7 @@ extension StatusViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "chartCell") as? ChartCell else { return ChartCell() }
-    // SHIT CODE: Configure chart depending on cell's number
+    // Configure chart depending on cell's number
     switch indexPath.row {
     case 0:
       cell.configureCell(withData: self.charts["termometer"] ?? [], andName: "Термометр")

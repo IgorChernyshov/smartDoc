@@ -18,7 +18,9 @@ class StatusViewController: UIViewController {
   
   // MARK: - Variables
   
-  var dbReference: DatabaseReference!
+  private lazy var dbReference: DatabaseReference! = {
+    Database.database().reference()
+  }()
   var charts = [String:[Double]]()
   
   // MARK: - ViewController's lifecycle
@@ -27,11 +29,15 @@ class StatusViewController: UIViewController {
     super.viewDidLoad()
     tableView.dataSource = self
     tableView.delegate = self
-    dbReference = Database.database().reference()
     
+    requestDataFromServer()
+  }
+  
+  /// Requests data from Firebase database
+  func requestDataFromServer() {
     dbReference.child("user").observeSingleEvent(of: .value) { [weak self] (snapshot) in
       guard let charts = snapshot.value as? NSDictionary else { return }
-  
+      
       for chart in charts {
         self?.charts[chart.key as! String] = chart.value as? [Double]
       }

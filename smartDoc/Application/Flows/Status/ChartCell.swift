@@ -94,6 +94,7 @@ class ChartCell: UITableViewCell {
     line.lineWidth = 1
     line.circleRadius = 0.0
     line.colors = [NSUIColor.red]
+    line.drawValuesEnabled = false
     
     // Set chart data source
     let data = LineChartData()

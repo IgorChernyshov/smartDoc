@@ -14,7 +14,6 @@
 		9C053B92224F6D78006F1912 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C053B91224F6D78006F1912 /* Assets.xcassets */; };
 		9C053B95224F6D78006F1912 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C053B93224F6D78006F1912 /* LaunchScreen.storyboard */; };
 		9C053BA3224F72BF006F1912 /* ChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BA2224F72BF006F1912 /* ChartCell.swift */; };
-		9C053BAA224F7C71006F1912 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BA9224F7C71006F1912 /* ChartData.swift */; };
 		9C053BB7224FE562006F1912 /* NormalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BB6224FE562006F1912 /* NormalValues.swift */; };
 		9C053BBC224FEF3C006F1912 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C053BBB224FEF3C006F1912 /* ProfileViewController.swift */; };
 		9C053BC0224FF1BB006F1912 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C053BBF224FF1BB006F1912 /* GoogleService-Info.plist */; };
@@ -30,7 +29,6 @@
 		9C053B94224F6D78006F1912 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C053B96224F6D78006F1912 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C053BA2224F72BF006F1912 /* ChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCell.swift; sourceTree = "<group>"; };
-		9C053BA9224F7C71006F1912 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		9C053BB6224FE562006F1912 /* NormalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalValues.swift; sourceTree = "<group>"; };
 		9C053BBB224FEF3C006F1912 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9C053BBF224FF1BB006F1912 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 		9C053BA4224F73E8006F1912 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				9C053BA9224F7C71006F1912 /* ChartData.swift */,
 				9C053BB6224FE562006F1912 /* NormalValues.swift */,
 			);
 			path = Entities;
@@ -290,7 +287,6 @@
 				9C053B8D224F6D76006F1912 /* StatusViewController.swift in Sources */,
 				9C053B8B224F6D76006F1912 /* AppDelegate.swift in Sources */,
 				9C053BB7224FE562006F1912 /* NormalValues.swift in Sources */,
-				9C053BAA224F7C71006F1912 /* ChartData.swift in Sources */,
 				9C053BA3224F72BF006F1912 /* ChartCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 
+/// Cell that displays chart for user's status
 class ChartCell: UITableViewCell {
   
   // MARK: - Outlets
@@ -24,6 +25,11 @@ class ChartCell: UITableViewCell {
   
   // MARK: - Methods
   
+  /// Configures cell with data and name that are passed in arguments.
+  ///
+  /// - Parameters:
+  ///   - data: Array of points to draw line.
+  ///   - name: Name of chart in russian.
   func configureCell(withData data: [Double], andName name: String) {
     self.values = data
     self.name = name
@@ -32,8 +38,10 @@ class ChartCell: UITableViewCell {
     configureChart()
   }
   
+  /// Configures chart
   func configureChart() {
     guard var minimumValue = values.first, var maximumValue = values.first else { return }
+    
     // Populate data source
     for index in 0..<values.count {
       let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
@@ -48,6 +56,7 @@ class ChartCell: UITableViewCell {
     var upperLimit = 0.0
     var lowerLimit = 0.0
     
+    // Set limit lines depending on graph's chart
     switch self.name {
     case "Термометр":
       upperLimit = NormalValues.temperatureMax.rawValue
@@ -113,6 +122,7 @@ class ChartCell: UITableViewCell {
     chartView.data = data
   }
   
+  /// Nulifies values on charts to avoid line dublicates
   override func prepareForReuse() {
     super.prepareForReuse()
     self.values = [0.0]

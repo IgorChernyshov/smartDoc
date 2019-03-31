@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+/// View Controller that shows user's status
 class StatusViewController: UIViewController {
   
   // MARK: - Outlets
@@ -16,6 +17,7 @@ class StatusViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   
   // MARK: - Variables
+  
   var dbReference: DatabaseReference!
   var charts = [String:[Double]]()
   
@@ -49,6 +51,7 @@ extension StatusViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "chartCell") as? ChartCell else { return ChartCell() }
+    // SHIT CODE: Configure chart depending on cell's number
     switch indexPath.row {
     case 0:
       cell.configureCell(withData: self.charts["termometer"] ?? [], andName: "Термометр")

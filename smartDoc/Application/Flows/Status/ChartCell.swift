@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 
+/// Cell that displays chart for user's status
 class ChartCell: UITableViewCell {
   
   // MARK: - Outlets
@@ -20,10 +21,14 @@ class ChartCell: UITableViewCell {
   
   private var name = ""
   private var values: [Double] = [0.0]
-  private var lineChartData: [ChartDataEntry] = []
   
   // MARK: - Methods
   
+  /// Configures cell with data and name that are passed in arguments.
+  ///
+  /// - Parameters:
+  ///   - data: Array of points to draw line.
+  ///   - name: Name of chart in russian.
   func configureCell(withData data: [Double], andName name: String) {
     self.values = data
     self.name = name
@@ -32,71 +37,67 @@ class ChartCell: UITableViewCell {
     configureChart()
   }
   
+  /// Configures chart
   func configureChart() {
     guard var minimumValue = values.first, var maximumValue = values.first else { return }
+    
+    // Configure chart
+    
+    // Create data sets for charts
+    var lineChartData: [ChartDataEntry] = []
+    var extremumsChartData: [ChartDataEntry] = []
+    
+    // Set limit lines
+    let upperLimit = getChartsUpperLimit()
+    let lowerLimit = getChartsLowerLimit()
+    
+    let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
+    limitLine1.lineWidth = 1
+    limitLine1.lineDashLengths = [5, 5]
+    limitLine1.lineColor = NSUIColor.blue
+    
+    let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
+    limitLine2.lineWidth = 1
+    limitLine2.lineDashLengths = [5,5]
+    limitLine2.lineColor = NSUIColor.blue
+    
     // Populate data source
     for index in 0..<values.count {
       let chartPoint = ChartDataEntry(x: Double(index), y: values[index])
       lineChartData.append(chartPoint)
       if values[index] < minimumValue { minimumValue = values[index] }
       if values[index] > maximumValue { maximumValue = values[index] }
+      if (values[index] > upperLimit) || (values[index] < lowerLimit) {
+        extremumsChartData.append(chartPoint)
+      }
     }
     
-    // Configure chart
+    // Set base line appearence
+    let baseLine = LineChartDataSet(values: lineChartData, label: nil)
+    baseLine.lineWidth = 1
+    baseLine.circleRadius = 0.0
+    baseLine.colors = [NSUIColor.red]
+    baseLine.drawValuesEnabled = false
     
-    // Set limit lines
-    var upperLimit = 0.0
-    var lowerLimit = 0.0
-    
-    switch self.name {
-    case "Термометр":
-      upperLimit = NormalValues.temperatureMax.rawValue
-      lowerLimit = NormalValues.temperatureMin.rawValue
-    case "Пульс":
-      upperLimit = NormalValues.pulseMax.rawValue
-      lowerLimit = NormalValues.pulseMin.rawValue
-    case "Сахар":
-      upperLimit = NormalValues.bloodSugarMax.rawValue
-      lowerLimit = NormalValues.bloodSugarMin.rawValue
-    case "Давление":
-      upperLimit = NormalValues.pressureMax.rawValue
-      lowerLimit = NormalValues.pressureMin.rawValue
-    case "Вес":
-      upperLimit = NormalValues.weightMax.rawValue
-      lowerLimit = NormalValues.weightMin.rawValue
-    default:
-      break
-    }
-    
-    let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
-    limitLine1.lineWidth = 1
-    limitLine1.lineDashLengths = [5, 5]
-    limitLine1.labelPosition = .rightTop
-    limitLine1.lineColor = NSUIColor.blue
-    
-    let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
-    limitLine2.lineWidth = 1
-    limitLine2.lineDashLengths = [5,5]
-    limitLine2.labelPosition = .rightBottom
-    limitLine2.lineColor = NSUIColor.blue
-    
-    // Set line appearence
-    let line = LineChartDataSet(values: lineChartData, label: nil)
-    line.lineWidth = 1
-    line.circleRadius = 0.0
-    line.colors = [NSUIColor.red]
+    // Set extremum line appearence
+    let extremumLine = LineChartDataSet(values: extremumsChartData, label: nil)
+    extremumLine.lineWidth = 0
+    extremumLine.circleRadius = 1.0
+    extremumLine.circleColors = [NSUIColor.red]
+    extremumLine.circleHoleColor = NSUIColor.red
     
     // Set chart data source
     let data = LineChartData()
-    data.addDataSet(line)
+    data.addDataSet(baseLine)
+    data.addDataSet(extremumLine)
     
     // Set left Y axis appearence
     let yAxisLeft = chartView.leftAxis
     yAxisLeft.addLimitLine(limitLine1)
     yAxisLeft.addLimitLine(limitLine2)
     yAxisLeft.drawLimitLinesBehindDataEnabled = true
-    yAxisLeft.axisMinimum = minimumValue - minimumValue * 0.3
-    yAxisLeft.axisMaximum = maximumValue + maximumValue * 0.3
+    yAxisLeft.axisMinimum = minimumValue * 0.9
+    yAxisLeft.axisMaximum = maximumValue * 1.1
     
     // Disable unused elements
     yAxisLeft.gridLineWidth = 0.0
@@ -113,10 +114,50 @@ class ChartCell: UITableViewCell {
     chartView.data = data
   }
   
+  /// Retrieves value's upper limit depending on graph's name
+  ///
+  /// - Returns: Upper limit that counts as "Normal"
+  func getChartsUpperLimit() -> Double {
+    switch self.name {
+    case "Термометр":
+      return NormalValues.temperatureMax.rawValue
+    case "Пульс":
+      return NormalValues.pulseMax.rawValue
+    case "Сахар":
+      return NormalValues.bloodSugarMax.rawValue
+    case "Давление":
+      return NormalValues.pressureMax.rawValue
+    case "Вес":
+      return NormalValues.weightMax.rawValue
+    default:
+      return 0.0
+    }
+  }
+  
+  /// Retrieves value's lower limit depending on graph's name
+  ///
+  /// - Returns: Lower limit that counts as "Normal"
+  func getChartsLowerLimit() -> Double {
+    switch self.name {
+    case "Термометр":
+      return NormalValues.temperatureMin.rawValue
+    case "Пульс":
+      return NormalValues.pulseMin.rawValue
+    case "Сахар":
+      return NormalValues.bloodSugarMin.rawValue
+    case "Давление":
+      return NormalValues.pressureMin.rawValue
+    case "Вес":
+      return NormalValues.weightMin.rawValue
+    default:
+      return 0.0
+    }
+  }
+  
+  /// Nulifies values on charts to avoid line dublicates
   override func prepareForReuse() {
     super.prepareForReuse()
     self.values = [0.0]
-    self.lineChartData = []
     chartView.data = LineChartData()
     chartView.clear()
   }

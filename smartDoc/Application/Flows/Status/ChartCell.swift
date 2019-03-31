@@ -51,15 +51,8 @@ class ChartCell: UITableViewCell {
     let upperLimit = getChartsUpperLimit()
     let lowerLimit = getChartsLowerLimit()
     
-    let limitLine1 = ChartLimitLine(limit: upperLimit, label: "")
-    limitLine1.lineWidth = 1
-    limitLine1.lineDashLengths = [5, 5]
-    limitLine1.lineColor = NSUIColor.init(red: 0, green: 0, blue: 1, alpha: 0.2)
-    
-    let limitLine2 = ChartLimitLine(limit: lowerLimit, label: "")
-    limitLine2.lineWidth = 1
-    limitLine2.lineDashLengths = [5,5]
-    limitLine2.lineColor = NSUIColor.init(red: 0, green: 0, blue: 1, alpha: 0.2)
+    let limitLine1 = LightBlueChartLimitLine(limit: upperLimit, label: "")
+    let limitLine2 = LightBlueChartLimitLine(limit: lowerLimit, label: "")
     
     // Populate data source
     for index in 0..<values.count {

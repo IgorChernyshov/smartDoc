@@ -31,17 +31,50 @@ class StatusViewController: UIViewController {
     tableView.delegate = self
     
     requestDataFromServer()
+    
   }
   
   /// Requests data from Firebase database
   func requestDataFromServer() {
-    dbReference.child("user").observeSingleEvent(of: .value) { [weak self] (snapshot) in
-      guard let charts = snapshot.value as? NSDictionary else { return }
+    dbReference.child("user").observe(.value) { [weak self] (snapshot) in
+        
+//    }
+    
+//    dbReference.child("user").observeSingleEvent(of: .value) { [weak self] (snapshot) in
+        guard let charts = snapshot.value as? /*NSDictionary*/ [String:[Double]] else { return }
       
-      for chart in charts {
-        self?.charts[chart.key as! String] = chart.value as? [Double]
-      }
-      self?.tableView.reloadData()
+        self?.charts = charts
+        var result = 1.0
+//        if charts["blood"]?.last < 3.3 && charts["blood"]?.last > 5.5 {
+//            result -= 0.2
+//        }
+        guard let bloodLast = charts["blood"]?.last, let termometerLast = charts["termometer"]?.last, let weightLast = charts["weight"]?.last, let heartLast = charts["heart"]?.last, let pressureLast = charts["pressure"]?.last else {return}
+        if bloodLast < 3.3 || bloodLast > 5.5 { result -= 0.2 }
+        if termometerLast < 35.5 || termometerLast > 37.4 { result -= 0.2 }
+        if weightLast < 63 || weightLast > 75 { result -= 0.2 }
+        if heartLast < 65 || heartLast > 80 { result -= 0.2 }
+        if pressureLast < 90 || pressureLast > 140 { result -= 0.2 }
+        self?.tableView.reloadData()
+        
+       var message = ""
+        if result >= 0.8 {
+            message = "Показатели выше нормы\nРекомендации:\nПродолжайте контролировать свое здоровье\nСледите за динамикой"
+        } else if result >= 0.5 {
+            message = "Показатели в норме\nРекомендации:\nОбратите внимание на отклонения\n- tº\n- ЭКГ\nОбратитесь к врачу"
+        } else if result < 0.5 {
+            message = "Показатели ниже нормы\nРекомендации:\nОбратите внимание на\n- tº\n- ЭКГ\n- Сахар\nОбратитесь к врачу"
+        }
+        
+        let alert = UIAlertController(title: "Ваш результат", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let badAction = UIAlertAction(title: "Связь с врачем", style: .default, handler: nil)
+        if result >= 0.8 {
+            alert.addAction(action)
+        } else {
+            alert.addAction(action)
+            alert.addAction(badAction)
+        }
+        self?.present(alert, animated: true, completion: nil)
     }
   }
 

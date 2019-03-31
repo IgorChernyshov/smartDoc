@@ -104,8 +104,8 @@ class ChartCell: UITableViewCell {
     yAxisLeft.addLimitLine(limitLine1)
     yAxisLeft.addLimitLine(limitLine2)
     yAxisLeft.drawLimitLinesBehindDataEnabled = true
-    yAxisLeft.axisMinimum = minimumValue - minimumValue * 0.3
-    yAxisLeft.axisMaximum = maximumValue + maximumValue * 0.3
+    yAxisLeft.axisMinimum = minimumValue * 0.9
+    yAxisLeft.axisMaximum = maximumValue * 1.1
     
     // Disable unused elements
     yAxisLeft.gridLineWidth = 0.0

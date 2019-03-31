@@ -11,8 +11,8 @@ import Foundation
 enum NormalValues: Double {
   case temperatureMin = 35.5
   case temperatureMax = 37.4
-  case weightMin = 59.0
-  case weightMax = 79.0
+  case weightMin = 63.0
+  case weightMax = 75.0
   case pulseMin = 65.0
   case pulseMax = 80.0
   case bloodSugarMin = 3.5
